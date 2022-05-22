@@ -43,10 +43,23 @@ const GlobalStyles = css`
     &:hover > [fill="rgb(153,153,153)"] { fill: #646464; }
     &:hover > [fill="rgb(255,255,255)"] { fill: #d7d7d7; }
   }
-  
+  // mayer
   svg .done {
     & rect { fill: #cbcbcb !important; }
     & text { text-decoration: line-through; }
+  }
+
+  svg .beginner {
+    & rect { fill: #84b0ed !important; }
+    & text { text-decoration: none; }
+  }
+  svg .intermediate {
+    & rect { fill: #a53f71 !important; }
+    & text { text-decoration: none; }
+  }
+  svg .advanced {
+    & rect { fill: #65d07c !important; }
+    & text { text-decoration: none; }
   }
 `;
 

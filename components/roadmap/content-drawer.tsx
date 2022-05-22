@@ -1,3 +1,4 @@
+
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { RemoveScroll } from 'react-remove-scroll';
 import { RoadmapType } from '../../lib/roadmap';
@@ -18,6 +19,32 @@ export function ContentDrawer(props: ContentDrawerProps) {
   }
 
   const isDone = localStorage.getItem(groupId) === 'done';
+  const isBeginner = localStorage.getItem(groupId) === 'beginner';
+  const isIntermediate = localStorage.getItem(groupId) === 'intermediate';
+  const isAdvanced = localStorage.getItem(groupId) === 'advanced';
+
+  
+  //mayer
+  function addClass(cls:string){
+      let curGroupId=localStorage.getItem(groupId);
+      if(curGroupId!=''){
+        localStorage.removeItem(groupId);
+        queryGroupElementsById(groupId).forEach((item) =>
+          item?.classList?.remove(curGroupId)
+        );
+      }
+      localStorage.setItem(groupId, cls);
+      queryGroupElementsById(groupId).forEach((item) =>
+        item?.classList?.add(cls)
+      );
+  }
+  //mayer
+  function removeClass(cls:string){
+    localStorage.removeItem(groupId);
+    queryGroupElementsById(groupId).forEach((item) =>
+      item?.classList?.remove(cls)
+    );
+  }
 
   return (
     <Box zIndex={99999} pos="relative">
@@ -35,7 +62,7 @@ export function ContentDrawer(props: ContentDrawerProps) {
         <Box
           p="0px 30px 30px"
           position="fixed"
-          w={['100%', '60%', '40%']}
+          w={['100%', '60%', '60%']}
           bg="white"
           top={0}
           right={0}
@@ -49,13 +76,11 @@ export function ContentDrawer(props: ContentDrawerProps) {
             alignItems="center"
             zIndex={1}
           >
+            {/*mayer repeatable btn */}
             {!isDone && (
               <Button
                 onClick={() => {
-                  localStorage.setItem(groupId, 'done');
-                  queryGroupElementsById(groupId).forEach((item) =>
-                    item?.classList?.add('done')
-                  );
+                  addClass('done');
                   onClose();
                 }}
                 colorScheme="green"
@@ -75,10 +100,7 @@ export function ContentDrawer(props: ContentDrawerProps) {
             {isDone && (
               <Button
                 onClick={() => {
-                  localStorage.removeItem(groupId);
-                  queryGroupElementsById(groupId).forEach((item) =>
-                    item?.classList?.remove('done')
-                  );
+                 removeClass('done');
                   onClose();
                 }}
                 colorScheme="red"
@@ -95,6 +117,59 @@ export function ContentDrawer(props: ContentDrawerProps) {
                 </Text>
               </Button>
             )}
+           
+            {/* beginner */}
+            <Button
+                onClick={() => {
+                  if(isBeginner)removeClass('beginner');
+                  else              addClass('beginner');
+                  onClose();
+                }}
+                colorScheme={isBeginner? 'red':'green'}
+                ml="5px"
+                leftIcon={isBeginner? < RepeatIcon/>:<CheckIcon />}
+                iconSpacing={0}
+                size="xs"
+            >
+              <Text as="span" d={['none', 'none', 'none', 'block']} ml="10px">
+                {isBeginner? 'Beginner':'mark as beginner'}
+              </Text>
+            </Button>
+            {/* intermediate */}
+            <Button
+                onClick={() => {
+                  if(isIntermediate)removeClass('intermediate');
+                  else              addClass('intermediate');
+                  onClose();
+                }}
+                colorScheme={isIntermediate? 'red':'green'}
+                ml="5px"
+                leftIcon={isIntermediate? < RepeatIcon/>:<CheckIcon />}
+                iconSpacing={0}
+                size="xs"
+            >
+              <Text as="span" d={['none', 'none', 'none', 'block']} ml="10px">
+                {isIntermediate? 'Intermediate':'mark as intermediate'}
+              </Text>
+            </Button>
+            {/* advanced */}
+            <Button
+                onClick={() => {
+                  if(isAdvanced)removeClass('advanced');
+                  else              addClass('advanced');
+                  onClose();
+                }}
+                colorScheme={isAdvanced? 'red':'green'}
+                ml="5px"
+                leftIcon={isAdvanced? < RepeatIcon/>:<CheckIcon />}
+                iconSpacing={0}
+                size="xs"
+            >
+              <Text as="span" d={['none', 'none', 'none', 'block']} ml="10px">
+                {isAdvanced? 'Advanced':'mark as advanced'}
+              </Text>
+            </Button>
+
             <Button
               onClick={onClose}
               colorScheme="yellow"
@@ -107,6 +182,7 @@ export function ContentDrawer(props: ContentDrawerProps) {
                 Close
               </Text>
             </Button>
+
           </Flex>
           <RoadmapGroup isOutlet roadmap={roadmap} group={groupId} />
         </Box>

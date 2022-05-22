@@ -262,14 +262,19 @@ export class Renderer {
   __group__(control: any, container: any) {
     const controlName = control?.properties?.controlName;
     const groupId = removeSortingInfo(controlName);
-    const isDone = localStorage.getItem(groupId) === 'done';
-
+    //mayer
+    // const isDone = localStorage.getItem(groupId) === 'done';
+    // const isBeginner = localStorage.getItem(groupId) === 'beginner';
+    // let val='';
+    // if(isDone) val='done';
+    // else if(isBeginner) val='beginner';
+    // class: `clickable-group ${val}`,
     let group = makeSVGElement(
       'g',
       {
         ...(controlName
           ? {
-              class: `clickable-group ${isDone ? 'done' : ''}`,
+              class: 'clickable-group',
               'data-group-id': controlName,
             }
           : {}),
